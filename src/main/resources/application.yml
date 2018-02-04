@@ -1,0 +1,17 @@
+server:
+  port: 8088
+
+application:
+  name : Swagger-demo
+  description : Spring Boot REST API for personal projects testing
+  version : 1.0
+  terms-of-service : Terms of service
+
+  license :
+    name : Spring Boot REST API
+    url : http://dummyLicenseUrl.com
+
+  contact :
+    name : Dummy Name
+    url : http://dummyContactUrl.com
+    email : dummyEmail@domain.com
