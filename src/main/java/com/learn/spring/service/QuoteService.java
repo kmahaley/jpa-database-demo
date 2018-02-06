@@ -1,5 +1,6 @@
 package com.learn.spring.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.learn.spring.model.Quote;
@@ -11,7 +12,9 @@ import com.learn.spring.model.Quote;
  */
 public interface QuoteService {
 
-    Quote saveQuote(Quote quote) throws Exception;
+    Quote addQuote(Quote quote) throws Exception;
+
+    List<Quote> addAllQuotes(List<Quote> quotes) throws Exception;
 
     Quote updateQuote(String id, Quote quote) throws Exception;
 
@@ -20,4 +23,7 @@ public interface QuoteService {
     void deleteQuote(String id) throws Exception;
 
     Quote getQuote(String id) throws Exception;
+
+    List<Quote> findAllQuotes() throws Exception;
+
 }

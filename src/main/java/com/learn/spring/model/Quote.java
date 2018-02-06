@@ -2,10 +2,12 @@ package com.learn.spring.model;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * Quote to be saved in database
@@ -27,7 +29,8 @@ public class Quote implements Serializable {
 //
 //    private ManifestData manifestData;\
 
-    @Id
+    @Id @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
 
     private String name;

@@ -1,5 +1,6 @@
 package com.learn.spring.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import com.learn.spring.model.Quote;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author km185223
  */
 @RestController
-@RequestMapping("/quote")
+@RequestMapping("/quotes")
 @Api(value = "Quote resource", description = "Operations pertaining to quote resource")
 public class QuoteController {
 
@@ -49,10 +50,16 @@ public class QuoteController {
         return quoteService.getQuote(id);
     }
 
-    @ApiOperation(value = "Create quote", response = Quote.class)
+    @ApiOperation(value = "Create single quote", response = Quote.class)
     @PostMapping()
-    public @ResponseBody Quote post(@RequestBody Quote quote) throws Exception {
-        return quoteService.saveQuote(quote);
+    public @ResponseBody Quote add(@RequestBody Quote quote) throws Exception {
+        return quoteService.addQuote(quote);
+    }
+
+    @ApiOperation(value = "Create multiple quotes", response = List.class)
+    @PostMapping("/add-all")
+    public @ResponseBody List<Quote> addAll(@RequestBody List<Quote> quotes) throws Exception {
+        return quoteService.addAllQuotes(quotes);
     }
 
     @ApiOperation(value = "Update quote by id", response = Quote.class)
@@ -73,5 +80,11 @@ public class QuoteController {
     public @ResponseBody Quote patch(@PathVariable("id") String id, @RequestBody Map<String, Object> body)
             throws Exception {
         return quoteService.partialUpdateQuote(id, body);
+    }
+
+    @ApiOperation(value = "Find all quotes", response = List.class)
+    @PostMapping("/find-all")
+    public @ResponseBody List<Quote> findAll() throws Exception {
+        return quoteService.findAllQuotes();
     }
 }

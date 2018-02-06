@@ -1,10 +1,15 @@
 package com.learn.spring.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import com.learn.spring.model.Quote;
 import com.learn.spring.repository.QuoteRepository;
 import com.learn.spring.service.QuoteService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.core.io.DescriptiveResource;
@@ -26,8 +31,16 @@ public class QuoteServiceImpl implements QuoteService {
     }
 
     @Override
-    public Quote saveQuote(Quote quote) throws Exception {
+    public Quote addQuote(Quote quote) throws Exception {
         return quoteRepository.save(quote);
+    }
+
+    @Override
+    public List<Quote> addAllQuotes(List<Quote> quotes) throws Exception {
+        if (CollectionUtils.isNotEmpty(quotes)) {
+            return (List<Quote>) quoteRepository.save(quotes);
+        }
+        return new ArrayList<>();
     }
 
     @Override
@@ -64,6 +77,14 @@ public class QuoteServiceImpl implements QuoteService {
     @Override
     public Quote getQuote(String id) throws Exception {
         return getQuoteFromRepository(id);
+    }
+
+    @Override
+    public List<Quote> findAllQuotes() throws Exception {
+        final Iterable<Quote> quotes = quoteRepository.findAll();
+        return StreamSupport
+                .stream(quotes.spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     /**
