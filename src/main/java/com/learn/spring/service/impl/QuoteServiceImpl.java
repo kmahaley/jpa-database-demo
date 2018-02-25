@@ -3,6 +3,7 @@ package com.learn.spring.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -32,11 +33,23 @@ public class QuoteServiceImpl implements QuoteService {
 
     @Override
     public Quote addQuote(Quote quote) throws Exception {
+        if (quote.getId() == null) {
+            quote.setId(UUID
+                    .randomUUID()
+                    .toString());
+        }
         return quoteRepository.save(quote);
     }
 
     @Override
     public List<Quote> addAllQuotes(List<Quote> quotes) throws Exception {
+        quotes.stream().forEach(quote -> {
+            if (quote.getId() == null) {
+                quote.setId(UUID
+                        .randomUUID()
+                        .toString());
+            }
+        });
         if (CollectionUtils.isNotEmpty(quotes)) {
             return (List<Quote>) quoteRepository.save(quotes);
         }
@@ -81,6 +94,7 @@ public class QuoteServiceImpl implements QuoteService {
 
     @Override
     public List<Quote> findAllQuotes() throws Exception {
+        List<Integer> list = new ArrayList<>();
         final Iterable<Quote> quotes = quoteRepository.findAll();
         return StreamSupport
                 .stream(quotes.spliterator(), false)

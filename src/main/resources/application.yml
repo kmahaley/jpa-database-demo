@@ -15,3 +15,7 @@ application:
     name : Dummy Name
     url : http://dummyContactUrl.com
     email : dummyEmail@domain.com
+
+management:
+  security:
+    enabled: false
