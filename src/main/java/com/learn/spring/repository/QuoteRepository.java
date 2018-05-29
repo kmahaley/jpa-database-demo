@@ -1,7 +1,7 @@
 package com.learn.spring.repository;
 
 import com.learn.spring.model.Quote;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
  * @author km185223
  */
 @Repository
-public interface QuoteRepository extends CrudRepository<Quote, String> {
+public interface QuoteRepository extends JpaRepository<Quote, String> {
 }
