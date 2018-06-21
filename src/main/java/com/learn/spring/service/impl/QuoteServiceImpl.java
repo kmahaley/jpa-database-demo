@@ -11,6 +11,7 @@ import com.learn.spring.model.Quote;
 import com.learn.spring.repository.QuoteRepository;
 import com.learn.spring.service.QuoteService;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.core.io.DescriptiveResource;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
  *
  * @author km185223
  */
+//@Slf4j
 @Service
 public class QuoteServiceImpl implements QuoteService {
 
@@ -89,6 +91,7 @@ public class QuoteServiceImpl implements QuoteService {
 
     @Override
     public Quote getQuote(String id) throws Exception {
+        System.out.println(MDC.get("requestedId"));
         return getQuoteFromRepository(id);
     }
 
@@ -109,6 +112,7 @@ public class QuoteServiceImpl implements QuoteService {
      * @throws Exception unhappy case
      */
     private Quote getQuoteFromRepository(String id) throws Exception {
+        System.out.println(MDC.get("requestedId"));
         final Quote quote = quoteRepository.findOne(id);
         if (quote == null) {
             throw new ResourceNotFoundException("quote-id", new DescriptiveResource(id));

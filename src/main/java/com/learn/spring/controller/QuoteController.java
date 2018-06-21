@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author km185223
  */
+//@Slf4j
 @RestController
 @RequestMapping("/quotes")
 @Api(value = "Quote resource", description = "Operations pertaining to quote resource")
@@ -47,6 +49,7 @@ public class QuoteController {
     })
     @GetMapping("/{id}")
     public @ResponseBody Quote get(@PathVariable("id") final String id) throws Exception {
+        MDC.put("requestedId",id+"  _requestedByUser");
         return quoteService.getQuote(id);
     }
 
