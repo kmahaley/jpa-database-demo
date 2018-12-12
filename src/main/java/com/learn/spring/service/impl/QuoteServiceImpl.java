@@ -1,5 +1,6 @@
 package com.learn.spring.service.impl;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,12 +11,14 @@ import java.util.stream.StreamSupport;
 import com.learn.spring.model.Quote;
 import com.learn.spring.repository.QuoteRepository;
 import com.learn.spring.service.QuoteService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.core.io.DescriptiveResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Quote service implementation
@@ -118,5 +121,18 @@ public class QuoteServiceImpl implements QuoteService {
             throw new ResourceNotFoundException("quote-id", new DescriptiveResource(id));
         }
         return quote;
+    }
+
+    @HystrixCommand(fallbackMethod = "failSafeMethod")
+    public String readList() {
+
+        RestTemplate restTemplate = new RestTemplate();
+        URI uri = URI.create("http://localhost:8088/hello/recommended");
+
+        return restTemplate.getForObject(uri, String.class);
+    }
+
+    public String failSafeMethod(){
+        return "Hystrix : hello world service";
     }
 }

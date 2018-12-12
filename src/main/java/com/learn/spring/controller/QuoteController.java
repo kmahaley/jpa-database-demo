@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author km185223
  */
 //@Slf4j
+@EnableCircuitBreaker
 @RestController
 @RequestMapping("/quotes")
 @Api(value = "Quote resource", description = "Operations pertaining to quote resource")
@@ -89,5 +91,15 @@ public class QuoteController {
     @PostMapping("/find-all")
     public @ResponseBody List<Quote> findAll() throws Exception {
         return quoteService.findAllQuotes();
+    }
+
+    /**
+     * To demo Hystrix circuit breaker pattern
+     *
+     * @return String method
+     */
+    @RequestMapping(value = "/to-read")
+    public String readingList() throws Exception {
+        return quoteService.readList();
     }
 }

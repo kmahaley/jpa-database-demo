@@ -26,4 +26,5 @@ public interface QuoteService {
 
     List<Quote> findAllQuotes() throws Exception;
 
+    String readList() throws Exception;
 }
